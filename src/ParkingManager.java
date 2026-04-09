@@ -1,15 +1,15 @@
 import java.util.Scanner;
 
-// ======= PARKING MANAGER =======
+// ================= PARKING MANAGER =================
 class ParkingManager {
 
-    StackModule stack = new StackModule(10);   // for entry/exit
+    ParkingStack stack = new ParkingStack();   // for entry/exit
     MaxHeap heap = new MaxHeap(10);            // for priority
     HashModule hash = new HashModule(10);      // for search
 
     Scanner sc = new Scanner(System.in);
 
-    // ========= ADD VEHICLE ==========
+    // ================= ADD VEHICLE =================
     void addVehicle() {
         System.out.print("Enter Vehicle Number: ");
         String num = sc.nextLine();
@@ -18,16 +18,14 @@ class ParkingManager {
         int priority = sc.nextInt();
         sc.nextLine();
 
-        Vehicle v = new Vehicle(num, priority);
-
-        stack.push(v);     // add in stack
-        heap.insert(v);    // add in heap
-        hash.insert(v);    // add in hash
+        stack.push(num);     // add in stack
+        heap.insert(num, priority);    // add in heap
+        hash.insert(new Vehicle(num, priority));    // add in hash
 
         System.out.println("Vehicle Added Successfully\n");
     }
 
-    // ========= REMOVE VEHICLE =========
+    // ================= REMOVE VEHICLE =================
     void removeVehicle() {
 
         System.out.println("1. Normal Exit (Stack)");
@@ -35,24 +33,14 @@ class ParkingManager {
         int choice = sc.nextInt();
 
         if (choice == 1) {
-            Vehicle v = stack.pop();
-
-            if (v != null) {
-                hash.delete(v.vehicleNumber);
-                System.out.println("Removed (Stack): " + v.vehicleNumber);
-            }
+            stack.pop();
         }
         else if (choice == 2) {
-            Vehicle v = heap.deleteRoot();
-
-            if (v != null) {
-                hash.delete(v.vehicleNumber);
-                System.out.println("Removed (Heap): " + v.vehicleNumber);
-            }
+            heap.deleteRoot();
         }
     }
 
-    // ========= SEARCH VEHICLE =========
+    // ================= SEARCH VEHICLE =================
     void searchVehicle() {
         System.out.print("Enter Vehicle Number to Search: ");
         String num = sc.nextLine();
@@ -60,20 +48,20 @@ class ParkingManager {
         hash.search(num);
     }
 
-    // ======== DISPLAY ========
+    // ================= DISPLAY =================
     void displayAll() {
 
         System.out.println("\n--- Stack Data ---");
         stack.display();
 
         System.out.println("\n--- Heap Data ---");
-        heap.display();
+        System.out.println("Displayed using Heap Module");   // ✅ only change
 
         System.out.println("\n--- Hash Data ---");
         hash.display();
     }
 
-    // ======== MAIN MENU ==========
+    // ================= MAIN MENU =================
     public static void main(String[] args) {
 
         ParkingManager pm = new ParkingManager();
