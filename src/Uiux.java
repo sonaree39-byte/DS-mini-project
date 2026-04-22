@@ -1,3 +1,4 @@
+java
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -42,8 +43,9 @@ class ParkingUI {
             int priority = Integer.parseInt(t2.getText());
 
             Vehicle v = new Vehicle(num, priority);
-            pm.stack.push(v);
-            pm.heap.insert(v);
+
+            pm.stack.push(num);              
+            pm.heap.insert(num, priority);   
             pm.hash.insert(v);
 
             area.setText("Vehicle Added: " + num);
@@ -51,11 +53,10 @@ class ParkingUI {
 
         // REMOVE BUTTON
         b2.addActionListener(e -> {
-            Vehicle v = pm.stack.pop();
-            if (v != null) {
-                pm.hash.delete(v.vehicleNumber);
-                area.setText("Removed: " + v.vehicleNumber);
-            }
+
+            pm.stack.pop();   // 
+
+            area.setText("Vehicle Removed (Stack)");
         });
 
         // SEARCH BUTTON
